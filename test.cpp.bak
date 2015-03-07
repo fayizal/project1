@@ -1,0 +1,32 @@
+#include<iostream>
+#include<fstream>
+
+using namespace std;
+
+int main() {
+
+ ifstream myReadFile;
+ myReadFile.open("Dictionary1-2.txt");
+ char output[100];
+ string temp;
+ temp="";
+ int i=0;
+ if (myReadFile.is_open()) {
+ while (!myReadFile.eof()) {
+
+
+    myReadFile >> output;
+    //cout<<output;
+    temp=temp+" "+output;
+
+ }
+}
+
+//cout<<temp;
+//cout<<temp.size();
+
+cout<<temp[0]<<temp[1]<<temp[2];
+
+myReadFile.close();
+return 0;
+}
