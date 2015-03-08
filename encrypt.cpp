@@ -55,8 +55,8 @@ int main()
 	transform(input_string.begin(), input_string.end(), input_string.begin(),(int (*)(int))tolower);
 
 	// To display numerical value of each letter of the string seperated by dot
-	for(i=0;i<length;i++)
-	cout << int(input_string[i])%96<<".";
+	//for(i=0;i<length;i++)
+	//cout << int(input_string[i])%96<<".";
 
 	// End line to seperate the strings
 	cout << endl;
@@ -66,15 +66,15 @@ int main()
 	for(i=0;i<length;i++)
 	{
 	enc_value=(int(input_string[i])%96) + key[i];
-	cout << char(int(input_string[i])%96+96)<<"-->"<<key[i]<<endl;
+	//cout << char(int(input_string[i])%96+96)<<"-->"<<key[i]<<endl;
 	enc_value=enc_value+96;
 	if(enc_value>122)
 	enc_value=(enc_value%122)+96;
 	encrypted_string[i]=char(enc_value);
 	}
 	encrypted_string[i]='\0';
-	
-	cout<<encrypted_string;
+	cout<<"Encrypted Cipher is "<<endl<<endl;
+	cout<<encrypted_string<<endl;
 
 	return 0;
 }
