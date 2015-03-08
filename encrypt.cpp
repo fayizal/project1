@@ -13,7 +13,7 @@ int main()
 	int length;
 
 	// Declare the array for storing key, Assume maximum length of the text to be entered is of length 100
-	int key[100];
+	int key[21000];
 
 	// Declare the integer to store key length to be used
 	int keylength;
