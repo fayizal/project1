@@ -33,12 +33,7 @@ int main() {
 	// Array to store the dictionary pattern
 	int dictionary_pattern[21000];
 
-	// Array to store the final plain text
-	char plain[200];
 
-	// Variable to find out the last position of the plain text during calculation, 
-	// this is useful to add the remaining characters and to add termination character \0
-	int last_position;
 
 	// Variable to store cipher text and dictionary
 	string cipher,dictionary;
@@ -139,7 +134,8 @@ int main() {
 	int seed=0;
 	char seed_string[200];	
 
-	// Again if there are multiple matches and no clear winner using match_max then lets store all of them and proceed to phase 2 where we combine each of them to the remaining words
+	// Again if there are multiple matches and no clear winner using match_max then lets store all of them and 
+	// proceed to phase 2 where we combine each of them to the remaining words
 	int similar_seed_count=0;
 	int similar_seed_index[200];
 	char similar_seed[200][100];
@@ -149,7 +145,6 @@ int main() {
 
 
 	// Time to calculate the pattern for each word in the dictionary
-	
 	for(k=0;k<=strptr;k++)
 	{
 		match=0;
@@ -178,47 +173,74 @@ int main() {
 
 	// OK, now we have matched pattern for each word and if there are similar matches then all of them are stored to array similar_seed
 
-	char temp2[100];
+	// We will store the new string input to array words2, the new input will be a combination of the above text plus space and all the other words
+	char words2[100];
+
+	// While calculating length of each pattern , we need a variable to store the minimum
 	int pattern_min;
+
+	// Array to store the final result
 	char final_text[100];
+
+	// Reset the match maximum to zero
 	match_max=0;
+
+	
+	// Time for loop to start for phase2, get the base string and start comparing by adding all other words to this
+
 	for(int z=0;z<similar_seed_count;z++)
 	{
 		for(k=0;k<=strptr;k++)
 			{
-//				cout<<"similar_seed["<<z<<"]="<<similar_seed[z]<<" and k="<<k<<endl;
+
+				// Keep adding all words and exclude if it is own
 				if( similar_seed_index[z] != k )
 					{
-						//cout<<similar_seed[z]<<" "<<words[k]<<endl;
-						strcpy(temp2,"");
-						strcat(temp2,similar_seed[z]);
-						strcat(temp2," ");
-						strcat(temp2,words[k]);
-//						cout<<temp2<<endl;
+						strcpy(words2,"");
+						// Take the base string
+						strcat(words2,similar_seed[z]);
+
+						// Add space in between
+						strcat(words2," ");
+
+						// Add the next word
+						strcat(words2,words[k]);
+
+						// Reset match for each try
 						match=0;
-						pattern1=pattern1_generate(temp2,keylength);
-						pattern2=pattern2_generate(temp2,keylength);
-						//cout<<"cipher length = "<<cipher_length<<" and string length = "<<strlen(temp2)-keylength<<endl;
-						pattern_min=strlen(temp2)-keylength;
+
+						// We need to have both pattern, this is the z round off issue
+						pattern1=pattern1_generate(words2,keylength);
+						pattern2=pattern2_generate(words2,keylength);
+						
+						// We need to find the pattern minimum, this will be number of times the loop will be executed
+						pattern_min=strlen(words2)-keylength;
+
 						if(pattern_min>cipher_length ) pattern_min = cipher_length;
-						for(int y=0;y<pattern_min;y++)
+						
+						// Loop for comparing the pattern, either pattern1 or pattern2 should match
+							for(int y=0;y<pattern_min;y++)
 							{
 							if(pattern1[y]==cipher_pattern[y] || pattern2[y]==cipher_pattern[y] )
 								match++;
 							else break;
 							}
+
+						// Remember to keep track of maximum value of match, to select the string which matches exactly with the cipher
 						 if(match>match_max)
         				        {
 							match_max=match;
-							strcpy(final_text,temp2);
+							strcpy(final_text,words2);
 						}
 	
 					}
 			}
 	}
 		
-if(strlen(final_text)==cipher_length)
-	cout<<final_text;	
+
+	// If everything goes fine and if the length of input cipher matches the combination of phase1 and phase 2 then output the results
+	if(strlen(final_text)==cipher_length)
+		cout<<final_text;	
 
 cout<<endl;
 return 0;
@@ -229,41 +251,39 @@ return 0;
 int* pattern2_generate(string input,int keylength)
 {
 
-int *temp= new int[200];
-int first,second,length,diff;
-length=input.size();
-int jump,max;
+	int *temp= new int[200];
+	int first,second,length,diff;
+	length=input.size();
+	int jump,max;
 
 
 
-for(int k=0;k<length;k++)
-{
-if(k<(length-keylength))
-{
-        first=input[k]%96;
-        second=input[k+keylength]%96;
-max=first;
-if(second>max)max=second;
+	for(int k=0;k<length;k++)
+	{
+		if(k<(length-keylength))
+		{
+		        first=input[k]%96;
+		        second=input[k+keylength]%96;
+			max=first;
+			if(second>max)max=second;
 
-jump=(27-max);
-first=first+jump;
-second=second+jump;
+			jump=(27-max);
+			first=first+jump;
+			second=second+jump;
 
-if(first>26)first=first%26;
-if(second>26)second=second%26;
+			if(first>26)first=first%26;
+			if(second>26)second=second%26;
 
-if(first>=second)
-    diff=first-second;
-else
-    diff=second-first;
+			if(first>=second)
+			    diff=first-second;
+			else
+			    diff=second-first;
 
-temp[k]=diff;
+			temp[k]=diff;
 
-//cout<<diff<<",";
-}
-}
+		}
+	}
 
-//cout<<endl;
 return temp;
 }
 
@@ -274,30 +294,28 @@ return temp;
 int* pattern1_generate(string input,int keylength)
 {
 
-int *temp= new int[200];
-int first,second,length,diff;
-length=input.size();
-for(int k=0;k<length;k++)
-{
-if(k<(length-keylength))
-{
-	first=input[k]%96;
-	second=input[k+keylength]%96;
+	int *temp= new int[200];
+	int first,second,length,diff;
+	length=input.size();
+	for(int k=0;k<length;k++)
+	{
+		if(k<(length-keylength))
+		{
+			first=input[k]%96;
+			second=input[k+keylength]%96;
 
-if(first>26)first=first%26;
-if(second>26)second=second%26;
+			if(first>26)first=first%26;
+			if(second>26)second=second%26;
 
-if(first>=second)
-    diff=first-second;
-else
-    diff=second-first;
+			if(first>=second)
+			    diff=first-second;
+			else
+			    diff=second-first;
 
-temp[k]=diff;
+			temp[k]=diff;
 
-//cout<<diff<<",";
-}
-}
+		}
+	}
 
-//cout<<endl;
 return temp;
 }
