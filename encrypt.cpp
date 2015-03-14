@@ -48,7 +48,9 @@ int main()
 
 	// Loop which populates key array with the keylength intervals
 	for(i=0;i<length;i++)
+	{
 	key[i]=(i%keylength)+1;
+	}
 	
 
 	// To convert the whole string to lower case
@@ -65,8 +67,9 @@ int main()
 	// To store encrypted string
 	for(i=0;i<length;i++)
 	{
-	enc_value=(int(input_string[i])%96) + key[i];
-	//cout << char(int(input_string[i])%96+96)<<"-->"<<key[i]<<endl;
+	enc_value=int(input_string[i])%96;
+	if(enc_value==32)enc_value=0;
+	enc_value=enc_value + key[i];
 	enc_value=enc_value+96;
 	if(enc_value>122)
 	enc_value=(enc_value%122)+96;
