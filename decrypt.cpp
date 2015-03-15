@@ -68,7 +68,10 @@ int main() {
 
 	fstream fin("Dictionary1-2.txt", fstream::in);
 	while (fin >> noskipws >> ch) 
+	{
+	if(int(ch)!=13 && int(ch)!=10)
 	dictionary[i++]=ch;
+	}
 
 
 
@@ -94,8 +97,8 @@ int main() {
                         if(second==32)second=0;
 
 		// Sometime the character will spill after the letter 'z', need to round off and take care of that
-			if(first>26)first=first%26;
-			if(second>26)second=second%26;
+			if(first>26)first=first%27;
+			if(second>26)second=second%27;
 
 		// Finally ready to calculate the difference and remember to store it to variable diff
 			if(first>=second)
@@ -118,6 +121,7 @@ int main() {
 
 	// Loop which starts from zero till it reaches the length of dictionary
 	for(k=0;k<i;k++)
+	{
 	if(k<(i-keylength))
 	{
 		// Same like cipher , here also we cannot generate the pattern for the last portion
@@ -129,9 +133,10 @@ int main() {
                         if(second==32)second=0;
 
 
+
 		// Rounding of for letters which crosses z
-			if(first>26)first=first%26;
-			if(second>26)second=second%26;
+			if(first>26)first=first%27;
+			if(second>26)second=second%27;
 
 
 		// Calculate difference , this will be used for Pattern1
@@ -164,8 +169,8 @@ int main() {
 			second=second+temp;
 
 		// OK, now we are ready to calculate Pattern2 and store it to diff
-			if(first>26)first=first%26;
-			if(second>26)second=second%26;
+			if(first>26)first=first%27;
+			if(second>26)second=second%27;
 			if(first>=second)
 				diff=first-second;
 			else
@@ -198,18 +203,22 @@ int main() {
 				// Just to be sure , we need to compare the current pattern with the first cipher pattern
 					cipher_flag=0;
 
+
 				// Comparison for the first cipher pattern with the existing dictionary pattern
 				if(cipher_pattern[cipher_flag]==dictionary_pattern[k] || cipher_pattern[cipher_flag]==diff)
 				{
+					
 					plain[cipher_flag]=dictionary[k];
 					cipher_flag++;
 					last_position=k;
 				}
 
-}
+			}
 
 
-}
+		}
+
+		}//End of For Loop
 
 				// Now that we have finished the loop, remember the portion which we skipped before ? ( i.e. keylength part )
 				// time to add them to the plain text variable
@@ -467,8 +476,8 @@ int* pattern1_generate(string input,int keylength)
                         if(first==32)first=0;
                         if(second==32)second=0;
 
-                        if(first>26)first=first%26;
-                        if(second>26)second=second%26;
+                        if(first>26)first=first%27;
+                        if(second>26)second=second%27;
 
                         if(first>=second)
                             diff=first-second;
@@ -506,8 +515,8 @@ int* pattern2_generate(string input,int keylength)
                         first=first+jump;
                         second=second+jump;
 
-                        if(first>26)first=first%26;
-                        if(second>26)second=second%26;
+                        if(first>26)first=first%27;
+                        if(second>26)second=second%27;
 
                         if(first>=second)
                             diff=first-second;

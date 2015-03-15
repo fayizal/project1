@@ -69,11 +69,11 @@ int main()
 	{
 	enc_value=int(input_string[i])%96;
 	if(enc_value==32)enc_value=0;
-	enc_value=enc_value + key[i];
+	enc_value=(enc_value + key[i])%27;
 	enc_value=enc_value+96;
-	if(enc_value>122)
-	enc_value=(enc_value%122)+96;
+	if(enc_value==0)enc_value=32;
 	encrypted_string[i]=char(enc_value);
+	cout<<encrypted_string[i];
 	}
 	encrypted_string[i]='\0';
 	cout<<"Encrypted Cipher is "<<endl<<endl;
