@@ -67,15 +67,22 @@ int main() {
 	cout<<"Enter Key Length:";
 	cin>>keylength;
 
+	if(keylength>26)
+	{
+	cout<<"Keylength more than 26, Please enter a value within <1-26>"<<endl;
+	return 0;
+	}
+
 	// Read the dictionary file and store it into string variable dictionary
 
 	fstream fin("Dictionary1-2.txt", fstream::in);
 	while (fin >> noskipws >> ch) 
 	{
 	if(int(ch)!=13 && int(ch)!=10)
-	dictionary[i++]=ch;
+	{
+		dictionary[i++]=ch;
 	}
-
+	}
 
 
 	// Calculate length of the cipher text and store it into variable
@@ -87,6 +94,7 @@ int main() {
 	for(k=0;k<cipher_length;k++)
 	if(k<(cipher_length-keylength))
 	{
+
 		// This part will be executed only if the loop variable is less than length of cipher minus the keylength, 
 		// Remember we cannot generate pattern for the last portion
 
@@ -205,6 +213,7 @@ int main() {
 				// Hmm , there is a mismatch, What is the current string in the dictionary is the start of original text ?
 				// Just to be sure , we need to compare the current pattern with the first cipher pattern
 					cipher_flag=0;
+
 
 
 				// Comparison for the first cipher pattern with the existing dictionary pattern
