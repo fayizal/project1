@@ -2,6 +2,7 @@
 #include<fstream>
 #include<string>
 #include<sstream>
+#include<time.h>
 
 using namespace std;
 
@@ -9,6 +10,8 @@ int* pattern1_generate(string input,int keylength);
 int* pattern2_generate(string input,int keylength);
 
 int main() {
+
+	clock_t tStart = clock();
 
 	//Declaring all Variables
 
@@ -450,8 +453,10 @@ cout<<endl<<"---------------------------------------Dictionary 2 Phase----------
 
 
 
-
 cout<<endl<<"---------------------------------------------------------------------------------------"<<endl;
+
+
+printf("Time taken: %.2fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC);
 
 //-------------------------End of Program---------------------------------------------------------
 return 0;
